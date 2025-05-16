@@ -1,0 +1,8 @@
+
+rosetta_code:
+  numbered: false
+  multiple_files: false
+
+simple_programming_problems:
+  numbered: true
+  multiple_files: true
