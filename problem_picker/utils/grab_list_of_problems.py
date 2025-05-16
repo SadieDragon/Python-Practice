@@ -21,7 +21,7 @@ def grab_list_of_problems(file_path: Path) -> list[str]:
         return []
 
     # Open the file, and return the contents without newlines
-    problems = []
+    problems: list[str] = list()
     with file_path.open('r', encoding='utf-8') as file:
         for problem in file.readlines():
             problems.append(problem.strip())

@@ -35,7 +35,10 @@ def grab_pool_of_problems() -> dict[str, list[str] | dict[str, list[str]]]:
                 category_tag = f'{tag}/{category}'
 
                 category_dir = tag_dir / category
-                category_problems = grab_unsolved_problems(category_dir, is_numbered)
+                category_problems = grab_unsolved_problems(
+                    category_dir,
+                    is_numbered
+                    )
 
                 problem_pool[category_tag] = category_problems
         # If the 'multiple_files' tag is false, then the dir is
