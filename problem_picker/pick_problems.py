@@ -1,13 +1,12 @@
 
+from problem_picker.utils import PoolOfProblems
+
+
 def pick_problems() -> None:
     '''
     Pick a set of 5 problems for the day.
 
     Notes:
-        - Tags are generated from the constants file.
-        - If a category is completed, please remove it from the tags list.
-        - If a category is to be added, please add it following the previous
-        template. (I do expect to add Euler one day.)
         - A template directory is made for the selected problems.
         - Please put unsolved problems from each day into `unsolved.txt`.
         They will be recycled into the current day's choices, and their
@@ -17,4 +16,7 @@ def pick_problems() -> None:
         On running this script, the previous day will have unsolved
         problems removed.
     '''
-    pass
+    # Generate the basic pool of problems
+    pool_of_problems = PoolOfProblems().pool_of_problems
+
+    print(pool_of_problems)
