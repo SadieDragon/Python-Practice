@@ -1,12 +1,15 @@
 
+from pathlib import Path
 from problem_picker.constants import ROOT_DIR
 from yaml import safe_load
 
-from problem_picker.utils.grab_unsolved_problems import grab_unsolved_problems
+from problem_picker.utils.grab_list_of_problems import grab_list_of_problems
 
 
 class PoolOfProblems:
     pool: dict[str, list[str]] = {}
+
+    is_numbered: bool
 
     def __init__(self) -> None:
         '''
@@ -23,26 +26,60 @@ class PoolOfProblems:
             tag_dir = ROOT_DIR / tag
 
             # Unpack the numbered flag, defaulting to False for safety
-            is_numbered = flags.get('numbered', False)
+            self.is_numbered = flags.get('numbered', False)
 
-            # If there are multiple files, then use the names of the subdirs
-            #   as keys, and the paths to them to grab the problems
-            if flags.get('multiple_files', False):
-                for subdir in tag_dir.iterdir():
-                    # Skip any not directory
-                    if not subdir.is_dir():
-                        continue
+            # If there are not multiple files, then simply generate the
+            #   pool of problems and move on
+            if not flags.get('multiple_files', False):
+                self.grab_unsolved_problems(tag_dir)
+                continue
 
-                    # Generate the key name
-                    subtag = f'{tag}/{subdir.name}'
+            # If there are multiple files, then go through the parent
+            #   list of subdirs to get their pool of items
+            for subdir in tag_dir.iterdir():
+                # Skip any loose files
+                if not subdir.is_dir():
+                    continue
 
-                    # Generate the list of problems
-                    self.pool[subtag] = grab_unsolved_problems(
-                        subdir,
-                        is_numbered
-                        )
+                # Generate the list of problems
+                self.grab_unsolved_problems(subdir)
 
-            # If there are not multiple files, then just use the tag as
-            #   the key for the pool of problems
-            else:
-                self.pool[tag] = grab_unsolved_problems(tag_dir, is_numbered)
+    def grab_unsolved_problems(self, target_dir: Path) -> None:
+        '''
+        Grabs the list of problems to solve, and the problems that have
+        been solved, and returns the problems left to solve.
+
+        Args:
+            target_dir (Path): The target directory to grab the problems from.
+
+        Returns:
+            list[str]: The list of problems that still need to be solved.
+
+        Notes:
+            - The flag for numbered is a class variable.
+            - The returned list of problems is sorted based on whether
+            they are numbered or not.
+        '''
+        # Determine the key for the pool of items by just grabbing the
+        #   name of the target dir
+        problem_set_name = target_dir.name
+
+        # Grab the problems that need to be solved
+        problems_file = target_dir / 'problems.txt'
+        problems = grab_list_of_problems(problems_file)
+
+        # Grab the problems that have been solved
+        completed_file = target_dir / 'complete.txt'
+        completed_problems = grab_list_of_problems(completed_file)
+
+        # Remove the solved problems from the list
+        unsolved_problems = list(set(problems) - set(completed_problems))
+
+        # Sort the problems, based on if they are numbered or not
+        if self.is_numbered:
+            unsolved_problems.sort(key=lambda x: int(x.split('. ')[0]))
+        else:
+            unsolved_problems = sorted(unsolved_problems)
+
+        # Store the problems in the pool
+        self.pool[problem_set_name] = unsolved_problems
