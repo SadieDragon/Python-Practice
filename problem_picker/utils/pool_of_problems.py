@@ -3,11 +3,9 @@ from pathlib import Path
 from problem_picker.constants import ROOT_DIR
 from yaml import safe_load
 
-from problem_picker.utils.grab_list_of_problems import grab_list_of_problems
-
 
 class PoolOfProblems:
-    pool: dict[str, list[str]] = {}
+    pool_of_problems: dict[str, list[str]] = {}
 
     is_numbered: bool
 
@@ -44,6 +42,33 @@ class PoolOfProblems:
                 # Generate the list of problems
                 self.grab_unsolved_problems(subdir)
 
+    @staticmethod
+    def grab_list_of_problems(file_path: Path) -> list[str]:
+        '''
+        Grab the list of problems from the provided file.
+
+        Args:
+            file_path (Path): The file to grab the list from.
+
+        Returns:
+            list[str]: The list of problems.
+
+        Notes:
+            - Returns an empty list if the file does not exist.
+            - Returns each problem without newlines attached.
+            - Skips any empty lines.
+        '''
+        # Use list comprehension to more easily generate the list
+        #   of problems cleaned up, skipping empty lines, if the
+        #   file exists
+        try:
+            with file_path.open('r', encoding='utf-8') as file:
+                return [line.strip() for line in file if line.strip()]
+        # If the file does not exist, or is lost, then just return an
+        #   empty list
+        except FileNotFoundError:
+            return []
+
     def grab_unsolved_problems(self, target_dir: Path) -> None:
         '''
         Grabs the list of problems to solve, and the problems that have
@@ -66,11 +91,11 @@ class PoolOfProblems:
 
         # Grab the problems that need to be solved
         problems_file = target_dir / 'problems.txt'
-        problems = grab_list_of_problems(problems_file)
+        problems = self.grab_list_of_problems(problems_file)
 
         # Grab the problems that have been solved
         completed_file = target_dir / 'complete.txt'
-        completed_problems = grab_list_of_problems(completed_file)
+        completed_problems = self.grab_list_of_problems(completed_file)
 
         # Remove the solved problems from the list
         unsolved_problems = list(set(problems) - set(completed_problems))
@@ -82,4 +107,4 @@ class PoolOfProblems:
             unsolved_problems = sorted(unsolved_problems)
 
         # Store the problems in the pool
-        self.pool[problem_set_name] = unsolved_problems
+        self.pool_of_problems[problem_set_name] = unsolved_problems
