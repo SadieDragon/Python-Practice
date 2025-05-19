@@ -1,6 +1,5 @@
 100 doors
 100 prisoners
-10001th prime
 15 puzzle game
 15 puzzle solver
 2048
@@ -1282,7 +1281,9 @@ Walsh matrix
 War card game
 Wasteful, equidigital and frugal numbers
 Water collected between towers
+Wavelet Matrix
 Web scraping
+Weiler-Atherton polygon clipping
 Weird numbers
 Wieferich primes
 Wilson primes of order n
