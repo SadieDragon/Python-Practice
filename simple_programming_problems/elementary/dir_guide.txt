@@ -6,3 +6,5 @@
 'sum' contains:
     - 'sum_one_to_n': Problem 4
     - 'sum_multiples_three_and_five_to_n': Problem 5
+'misc' contains:
+    - 'mult_table_twelve': Problem 6
