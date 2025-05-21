@@ -1,0 +1,8 @@
+2048
+24 game/Solve
+4-rings or 4-squares puzzle
+9 billion names of God the integer
+ADFGVX cipher
+AVL tree
+Abbreviations, automatic
+Abbreviations, easy

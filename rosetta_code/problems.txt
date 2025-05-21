@@ -1,20 +1,5 @@
-100 doors
-100 prisoners
-15 puzzle game
-15 puzzle solver
-2048
-21 game
-24 game
-24 game/Solve
-4-rings or 4-squares puzzle
-9 billion names of God the integer
-99 bottles of beer
-A+B
-Abbreviations, automatic
-Abbreviations, easy
 Abbreviations, simple
 ABC correlation
-ABC problem
 ABC words
 Abelian sandpile model
 Abelian sandpile model/Identity
@@ -30,8 +15,6 @@ Active object
 Add a variable to a class instance at runtime
 Additive primes
 Address of a variable
-ADFGVX cipher
-AKS test for primes
 Algebraic data types
 Align columns
 Aliquot sequence classifications
@@ -71,7 +54,6 @@ Array concatenation
 Array length
 Arrays
 Ascending primes
-ASCII art diagram converter
 Assertions
 Associative array/Creation
 Associative array/Iteration
@@ -88,7 +70,6 @@ Averages/Mode
 Averages/Pythagorean means
 Averages/Root mean square
 Averages/Simple moving average
-AVL tree
 Babbage problem
 Babylonian spiral
 Balanced brackets
